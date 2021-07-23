@@ -1,26 +1,25 @@
-import React, { Children, FC, cloneElement, isValidElement, useState, useEffect, DependencyList, ReactElement } from 'react'
+import React, { Children, FC, cloneElement, isValidElement, useState, useEffect, DependencyList, ReactElement, JSXElementConstructor } from 'react'
 import useNavigationStack from './useNavigationStack'
 
 interface NavigationViewProps {
-    children: ReactElement[]
+    children: ReactElement | ReactElement[]
 }
 
-interface NavigationPageProps {
+export interface NavigationPageProps {
     useNavigationTitle(node: ReactElement, dependencies: DependencyList): void
     pushStack(element: ReactElement): void
     popStack(element: string | number): void
 }
 
 const NavigationView: FC<NavigationViewProps> = ({ children }) => {
-    const { stack, pushStack, popStack } = useNavigationStack(children)
-    const [titles, setTitles] = useState<ReactElement[]>([])
+    const { stack, pushStack, popStack } = useNavigationStack(Children.toArray(children) as any)
+    //const [titles, setTitles] = useState<ReactElement[]>([])
     const mappedStack = Children.map(stack, (child, index) => {
-        if (!isValidElement(child)) { return child }
         const useNavigationTitle = (node: ReactElement, dependencies: DependencyList) => {
             useEffect(() => {
-                const newTitles = [...titles]
-                newTitles[index] = node
-                setTitles(newTitles)
+                //const newTitles = [...titles]
+                //newTitles[index] = node
+                //setTitles(newTitles)
             }, dependencies)
         }
         return cloneElement(child as React.ReactElement<NavigationPageProps>,
@@ -36,7 +35,8 @@ const NavigationView: FC<NavigationViewProps> = ({ children }) => {
                     {index == 0 ? null : <div className="navigation-back-button">
                         Back
                     </div>}
-                    <div className="navigation-title">{titles[index]}</div>
+                    <div className="navigation-title">Title</div>
+                    {/* <div className="navigation-title">{titles[index]}</div> */}
                 </div>
             })}
         </div>

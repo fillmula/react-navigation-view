@@ -2,17 +2,20 @@ import { useState, ReactElement } from 'react'
 
 
 interface NavigationStackSet {
-    stack: ReactElement[]
+    stack: ReactElement | ReactElement[]
     pushStack(element: ReactElement): void
     popStack(arg?: number | string): void
 }
 
 const useNavigationStack = (
-    initial: ReactElement[] = []
+    initial: ReactElement | ReactElement[] = []
 ): NavigationStackSet => {
+    if (!Array.isArray(initial)) {
+        initial = [initial]
+    }
     const [stack, setStack] = useState(initial)
     const pushStack = (element: ReactElement) => {
-        setStack([...initial, element])
+        setStack([...initial as ReactElement[], element])
     }
     const popStack = (arg: number = 1) => {
         if (typeof arg == 'string') {
