@@ -1,27 +1,22 @@
-import { useState } from 'react'
+import { useState, ReactElement } from 'react'
 
-interface NavigationPageDescriptor {
-    key: string
-    component: string
-    props?: {[key: string]: any}
-}
 
 interface NavigationStackSet {
-    stack: NavigationPageDescriptor[]
-    pushStack(pageDescriptor: NavigationPageDescriptor): void
+    stack: ReactElement[]
+    pushStack(element: ReactElement): void
     popStack(arg?: number | string): void
 }
 
 const useNavigationStack = (
-    initial: NavigationPageDescriptor[] = []
+    initial: ReactElement[] = []
 ): NavigationStackSet => {
     const [stack, setStack] = useState(initial)
-    const pushStack = (pageDescriptor: NavigationPageDescriptor) => {
-        setStack([...initial, pageDescriptor])
+    const pushStack = (element: ReactElement) => {
+        setStack([...initial, element])
     }
-    const popStack = (arg: number | string = 1) => {
+    const popStack = (arg: number = 1) => {
         if (typeof arg == 'string') {
-            const item = stack.find((item) => item.key == arg)
+            const item = stack.find((item) => item.props.key == arg)
             if (item) {
                 const index = stack.indexOf(item)
                 setStack(stack.slice(0, index + 1))
