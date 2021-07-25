@@ -1,2 +1,2 @@
-# react-use-navigation-stack
+# react-navigation-view
 React Navigation Stack UI

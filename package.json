@@ -1,5 +1,5 @@
 {
-  "name": "react-use-navigation-stack",
+  "name": "react-navigation-view",
   "version": "0.0.1",
   "description": "React Navigation Stack UI",
   "main": "index.js",
@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/fillmula/react-use-navigation-stack.git"
+    "url": "git+https://github.com/fillmula/react-navigation-view.git"
   },
   "author": "",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/fillmula/react-use-navigation-stack/issues"
+    "url": "https://github.com/fillmula/react-navigation-view/issues"
   },
-  "homepage": "https://github.com/fillmula/react-use-navigation-stack#readme",
+  "homepage": "https://github.com/fillmula/react-navigation-view#readme",
   "peerDependencies": {
     "react": "^17.0.2"
   },
