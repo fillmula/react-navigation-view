@@ -1,1 +1,1 @@
-export { default as NavigationView, NavigationPageProps } from "./NavigationView";
+export { default as default, NavigationPageProps } from "./NavigationView";
