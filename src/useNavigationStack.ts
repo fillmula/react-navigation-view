@@ -15,7 +15,7 @@ const useNavigationStack = (
     }
     const [stack, setStack] = useState(initial)
     const pushStack = (element: ReactElement) => {
-        setStack([...initial as ReactElement[], element])
+        setStack([...stack as ReactElement[], element])
     }
     const popStack = (arg: number = 1) => {
         if (typeof arg == 'string') {

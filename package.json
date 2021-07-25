@@ -16,7 +16,7 @@
     "url": "https://github.com/fillmula/react-use-navigation-stack/issues"
   },
   "homepage": "https://github.com/fillmula/react-use-navigation-stack#readme",
-  "dependencies": {
+  "peerDependencies": {
     "react": "^17.0.2"
   },
   "devDependencies": {
