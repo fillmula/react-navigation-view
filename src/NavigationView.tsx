@@ -1,4 +1,7 @@
-import React, { Children, FC, cloneElement, useState, useEffect, DependencyList, ReactElement, JSXElementConstructor } from 'react'
+import React, {
+    FC, Children, ReactElement, ReactNode, DependencyList,
+    cloneElement, useState, useEffect
+} from 'react'
 import useNavigationStack, { NavigationPageStatus } from './useNavigationStack'
 import useInjectNavigationViewCSS from './useInjectNavigationViewCSS'
 import BackChevron from './BackChevron'
@@ -9,7 +12,9 @@ interface NavigationViewProps {
 }
 
 export interface NavigationPageProps {
-    useNavigationTitle(node: ReactElement, dependencies: DependencyList): void
+    useNavigationTitle(node: ReactNode, dependencies: DependencyList): void
+    useLeftNavigationItems(node: ReactNode, dependencies: DependencyList): void
+    useRightNavigationItems(node: ReactNode, dependencies: DependencyList): void
     pushStack(element: ReactElement): void
     popStack(element: string | number): void
 }
@@ -35,17 +40,36 @@ const NavigationView: FC<NavigationViewProps> = ({
             }
         }
     }
-    const [titles, setTitles] = useState<ReactElement[]>([])
+    const [titles, setTitles] = useState<ReactNode[]>([])
+    const [leftItems, setLeftItems] = useState<ReactNode[]>([])
+    const [rightItems, setRightItems] = useState<ReactNode[]>([])
     const mappedStack = Children.map(stack, (child, index) => {
-        const useNavigationTitle = (node: ReactElement, dependencies: DependencyList) => {
+        const useNavigationTitle = (node: ReactNode, dependencies: DependencyList) => {
             useEffect(() => {
                 const newTitles = [...titles]
                 newTitles[index] = node
                 setTitles(newTitles)
             }, dependencies)
         }
+        const useLeftNavigationItems = (node: ReactNode, dependencies: DependencyList) => {
+            useEffect(() => {
+                const newItems = [...leftItems]
+                newItems[index] = node
+                setLeftItems(newItems)
+            }, dependencies)
+        }
+        const useRightNavigationItems = (node: ReactNode, dependencies: DependencyList) => {
+            useEffect(() => {
+                const newItems = [...rightItems]
+                newItems[index] = node
+                setRightItems(newItems)
+            }, dependencies)
+        }
         return cloneElement(child as React.ReactElement<NavigationPageProps>,
-                            { useNavigationTitle, pushStack, popStack, key: index })
+                            { useNavigationTitle,
+                              useLeftNavigationItems,
+                              useRightNavigationItems,
+                              pushStack, popStack, key: index })
     })
     let activeIndex = status.findIndex((s) => s === NavigationPageStatus.Leave) - 1
     if (activeIndex < 0) {
@@ -78,11 +102,17 @@ const NavigationView: FC<NavigationViewProps> = ({
                     position = 'middle'
                 }
                 return <div className={`__rnv-navigation-item __rnv-position-${position}` + animationClass(status[index])} key={index}>
-                    {index == 0 ? null : <div className="__rnv-navigation-back-button"
-                                              onClick={() => {child.props.popStack(1)}}>
-                        <BackChevron />{defaultBackButtonTitle}
-                    </div>}
+                    <div className="__rnv-navigation-left-items">
+                        {index == 0 ? null : <div className="__rnv-navigation-back-button"
+                                                  onClick={() => {child.props.popStack(1)}}>
+                            <BackChevron />{defaultBackButtonTitle}
+                        </div>}
+                        {leftItems[index]}
+                    </div>
                     <div className="__rnv-navigation-title">{titles[index]}</div>
+                    <div className="__rnv-navigation-right-items">
+                        {rightItems[index]}
+                    </div>
                 </div>
             })}
         </div>

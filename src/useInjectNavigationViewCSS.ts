@@ -1,4 +1,4 @@
-import useHeadStyleInjection from "./useHeadStyleInjection"
+import useHeadStyleInjection from "react-use-head-style-injection"
 
 const useInjectNavigationViewCSS = useHeadStyleInjection(
     '__react-navigation-view',
@@ -172,11 +172,23 @@ const useInjectNavigationViewCSS = useHeadStyleInjection(
         transform: translate(-50%, 0);
     }
 
-    .__rnv-navigation-back-button {
+    .__rnv-navigation-left-items {
         position: absolute;
+        left: 8px;
+        display: flex;
+        flex-direction: row;
+    }
+
+    .__rnv-navigation-right-items {
+        position: absolute;
+        right: 8px;
+        display: flex;
+        flex-direction: row-reverse;
+    }
+
+    .__rnv-navigation-back-button {
         display: flex;
         align-items: center;
-        left: 8px;
         cursor: pointer;
         font-size: 17px;
         color: #007aff;

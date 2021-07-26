@@ -1,9 +1,9 @@
 {
   "name": "react-navigation-view",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "React Navigation Stack UI",
-  "types":"lib/index.d.ts",
-  "main":"lib/index.js",
+  "types": "lib/index.d.ts",
+  "main": "lib/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -11,12 +11,15 @@
     "type": "git",
     "url": "git+https://github.com/fillmula/react-navigation-view.git"
   },
-  "author": "",
+  "author": "Victor Teo",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/fillmula/react-navigation-view/issues"
   },
   "homepage": "https://github.com/fillmula/react-navigation-view#readme",
+  "dependencies": {
+    "react-use-head-style-injection": "^0.0.1"
+  },
   "peerDependencies": {
     "react": "^17.0.2"
   },
