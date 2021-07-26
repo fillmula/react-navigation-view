@@ -19,9 +19,12 @@ export interface NavigationPageProps {
     popStack(element: string | number): void
 }
 
-const NavigationView: FC<NavigationViewProps> = ({
-    children, defaultBackButtonTitle = "Back"
-}) => {
+const NavigationView: FC<NavigationViewProps> = (props) => {
+    const children = props.children
+    const defaultBackButtonTitle = props.defaultBackButtonTitle ?? "Back"
+    const passingProps: any = Object.assign({}, props)
+    delete passingProps['children']
+    delete passingProps['defaultBackButtonTitle']
     useInjectNavigationViewCSS()
     const { stack, status, pushStack, popStack } = useNavigationStack(Children.toArray(children) as any)
     const animationClass = (val: number) => {
@@ -86,7 +89,7 @@ const NavigationView: FC<NavigationViewProps> = ({
                 } else {
                     position = 'middle'
                 }
-                return <div className={`__rnv-navigation-page __rnv-position-${position}` + animationClass(status[index])} key={index}>
+                return <div className={`__rnv-navigation-page __rnv-position-${position}` + animationClass(status[index])} key={index} {...passingProps}>
                     {stackItem}
                 </div>
             })}
