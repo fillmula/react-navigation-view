@@ -174,14 +174,18 @@ const useInjectNavigationViewCSS = useHeadStyleInjection(
 
     .__rnv-navigation-left-items {
         position: absolute;
-        left: 8px;
+        left: 16px;
         display: flex;
         flex-direction: row;
     }
 
+    .__rnv-navigation-left-items.__rnv-has-back-button {
+        left: 8px;
+    }
+
     .__rnv-navigation-right-items {
         position: absolute;
-        right: 8px;
+        right: 16px;
         display: flex;
         flex-direction: row-reverse;
     }
@@ -203,6 +207,34 @@ const useInjectNavigationViewCSS = useHeadStyleInjection(
         text-overflow: ellipsis;
         overflow: hidden;
         transition: transform 0.3s ease-in-out 0s;
+    }
+
+    .__rnv-navigation-left-items > *:not(:last-child) {
+        margin-right: 12px;
+    }
+
+    .__rnv-navigation-left-items button {
+        cursor: pointer;
+        font-size: 17px;
+        color: #007aff;
+        border: none;
+        background-color: transparent;
+        margin: 0;
+        padding: 0;
+    }
+
+    .__rnv-navigation-right-items > *:not(:last-child) {
+        margin-left: 12px;
+    }
+
+    .__rnv-navigation-right-items button {
+        cursor: pointer;
+        font-size: 17px;
+        color: #007aff;
+        border: none;
+        background-color: transparent;
+        margin: 0;
+        padding: 0;
     }
     `)
 

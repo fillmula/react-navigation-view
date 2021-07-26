@@ -102,7 +102,7 @@ const NavigationView: FC<NavigationViewProps> = ({
                     position = 'middle'
                 }
                 return <div className={`__rnv-navigation-item __rnv-position-${position}` + animationClass(status[index])} key={index}>
-                    <div className="__rnv-navigation-left-items">
+                    <div className={`__rnv-navigation-left-items${index > 0 ? '': ' __rnv-has-back-button'}`}>
                         {index == 0 ? null : <div className="__rnv-navigation-back-button"
                                                   onClick={() => {child.props.popStack(1)}}>
                             <BackChevron />{defaultBackButtonTitle}
