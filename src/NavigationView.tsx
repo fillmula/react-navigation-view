@@ -72,7 +72,8 @@ const NavigationView: FC<NavigationViewProps> = (props) => {
                             { useNavigationTitle,
                               useLeftNavigationItems,
                               useRightNavigationItems,
-                              pushStack, popStack, key: index })
+                              pushStack, popStack, key: index,
+                              ...passingProps })
     })
     let activeIndex = status.findIndex((s) => s === NavigationPageStatus.Leave) - 1
     if (activeIndex < 0) {
@@ -89,7 +90,7 @@ const NavigationView: FC<NavigationViewProps> = (props) => {
                 } else {
                     position = 'middle'
                 }
-                return <div className={`__rnv-navigation-page __rnv-position-${position}` + animationClass(status[index])} key={index} {...passingProps}>
+                return <div className={`__rnv-navigation-page __rnv-position-${position}` + animationClass(status[index])} key={index}>
                     {stackItem}
                 </div>
             })}
