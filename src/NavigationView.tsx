@@ -157,7 +157,7 @@ const NavigationView: FC<NavigationViewProps> = (props) => {
                     position = 'middle'
                 }
                 return <div className={`__rnv-navigation-item __rnv-position-${position}` + animationClass(status[index]) + (navigationItemClass ? ` ${navigationItemClass}` : '')} key={index} style={navigationItemStyle}>
-                    <div className={`__rnv-navigation-left-items${index > 0 ? '': ' __rnv-has-back-button'}${navigationLeftItemsClass ? ` ${navigationLeftItemsClass}` : ''}`} style={navigationLeftItemsStyle}>
+                    <div className={`__rnv-navigation-left-items${index === 0 ? '': ' __rnv-has-back-button'}${navigationLeftItemsClass ? ` ${navigationLeftItemsClass}` : ''}`} style={navigationLeftItemsStyle}>
                         {index == 0 ? null : (backElement ?? <div className="__rnv-navigation-back-button"
                                                                   onClick={() => {child.props.popStack(1)}}>
                             <BackChevron />{defaultBackButtonTitle}
