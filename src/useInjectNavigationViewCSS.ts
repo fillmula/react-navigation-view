@@ -97,6 +97,7 @@ const useInjectNavigationViewCSS = useHeadStyleInjection(
         right: 0;
         background-color: rgb(250, 250, 252);
         transition: transform 0.3s ease-in-out 0s;
+        overflow-y: scroll;
     }
 
     .__rnv-navigation-page > * {
