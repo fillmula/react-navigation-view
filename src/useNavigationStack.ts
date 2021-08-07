@@ -1,4 +1,4 @@
-import { useState, ReactElement } from 'react'
+import { useState, ReactElement, useRef } from 'react'
 
 export enum NavigationPageStatus {
     Static = 1,
@@ -22,24 +22,30 @@ const useNavigationStack = (
     }
     const [stack, setStack] = useState(initial)
     const [status, setStatus] = useState<NavigationPageStatus[]>(Array(initial.length).fill(NavigationPageStatus.Static))
+    const stackRef = useRef<ReactElement[]>()
+    stackRef.current = stack
+    const statusRef = useRef<NavigationPageStatus[]>()
+    statusRef.current = status
     const pushStack = (element: ReactElement) => {
-        setStatus([...status, NavigationPageStatus.Enter])
-        setStack([...stack as ReactElement[], element])
+        setStatus([...statusRef.current!, NavigationPageStatus.Enter])
+        setStack([...stackRef.current! as ReactElement[], element])
         setTimeout(() => {
-            setStatus([...status, NavigationPageStatus.Static])
+            const newStatus = [...statusRef.current!]
+            newStatus.splice(newStatus.length - 1, 1)
+            setStatus([...newStatus, NavigationPageStatus.Static])
         }, duration * 1000)
     }
     const popStack = (arg: string | number = 1) => {
         let index: number = -1
         if (typeof arg == 'string') {
-            const item = stack.find((item) => item.props.key == arg)
+            const item = stackRef.current!.find((item) => item.props.key == arg)
             if (item) {
-                index = stack.indexOf(item)
+                index = stackRef.current!.indexOf(item)
             }
         } else if (typeof arg == 'number') {
-            index = stack.length - 1 - arg
+            index = stackRef.current!.length - 1 - arg
         }
-        const newStatus = status.map((s, i) => {
+        const newStatus = statusRef.current!.map((s, i) => {
             if (i > index) {
                 return NavigationPageStatus.Leave
             } else {
@@ -48,8 +54,8 @@ const useNavigationStack = (
         })
         setStatus(newStatus)
         setTimeout(() => {
-            setStatus(status.slice(0, index + 1))
-            setStack(stack.slice(0, index + 1))
+            setStatus(statusRef.current!.slice(0, index + 1))
+            setStack(stackRef.current!.slice(0, index + 1))
         }, duration * 1000)
     }
     return { stack, status, pushStack, popStack }

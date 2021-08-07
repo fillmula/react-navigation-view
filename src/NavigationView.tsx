@@ -149,7 +149,7 @@ const NavigationView: FC<NavigationViewProps> = (props) => {
                                   }
                                   stack.forEach((_, i) => {
                                       if (i > index) {
-                                          removeStateRecord(`${navigationViewId}.i.pop`)
+                                          removeStateRecord(`${navigationViewId}.${i}.pop`)
                                       }
                                   })
                               },
