@@ -25,7 +25,7 @@ const useNavigationStack = (
     const [stack, setStack] = useState(initial)
     const [status, setStatus] = useState<NavigationPageStatus[]>(Array(initial.length).fill(NavigationPageStatus.Static))
     const pushStack = (element: ReactElement) => {
-        pushStateRecord(`${backableKey}.${stack.length}.pop`, () => popStack())
+        pushStateRecord(`${backableKey}.${stack.length}.pop`, () => element.props.popStack())
         setStatus([...status, NavigationPageStatus.Enter])
         setStack([...stack as ReactElement[], element])
         setTimeout(() => {
