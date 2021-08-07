@@ -1,5 +1,4 @@
 import { useState, ReactElement } from 'react'
-import { pushStateRecord, removeStateRecord } from 'react-backable'
 
 export enum NavigationPageStatus {
     Static = 1,
@@ -8,14 +7,13 @@ export enum NavigationPageStatus {
 }
 
 interface NavigationStackSet {
-    stack: ReactElement | ReactElement[]
+    stack: ReactElement[]
     status: NavigationPageStatus[]
     pushStack(element: ReactElement): void
     popStack(arg?: number | string): void
 }
 
 const useNavigationStack = (
-    backableKey: string,
     initial: ReactElement | ReactElement[] = [],
     duration: number = 0.3,
 ): NavigationStackSet => {
@@ -25,7 +23,6 @@ const useNavigationStack = (
     const [stack, setStack] = useState(initial)
     const [status, setStatus] = useState<NavigationPageStatus[]>(Array(initial.length).fill(NavigationPageStatus.Static))
     const pushStack = (element: ReactElement) => {
-        pushStateRecord(`${backableKey}.${stack.length}.pop`, () => element.props.popStack())
         setStatus([...status, NavigationPageStatus.Enter])
         setStack([...stack as ReactElement[], element])
         setTimeout(() => {
@@ -44,7 +41,6 @@ const useNavigationStack = (
         }
         const newStatus = status.map((s, i) => {
             if (i > index) {
-                removeStateRecord(`${backableKey}.${i + 1}.pop`)
                 return NavigationPageStatus.Leave
             } else {
                 return s

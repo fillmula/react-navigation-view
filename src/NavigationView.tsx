@@ -2,6 +2,7 @@ import React, {
     FC, Children, ReactElement, ReactNode, ReactChild, DependencyList,
     CSSProperties, cloneElement, useState, useEffect
 } from 'react'
+import { pushStateRecord, removeStateRecord } from 'react-backable'
 import useNavigationStack, { NavigationPageStatus } from './useNavigationStack'
 import useInjectNavigationViewCSS from './useInjectNavigationViewCSS'
 import BackChevron from './BackChevron'
@@ -81,7 +82,6 @@ const NavigationView: FC<NavigationViewProps> = (props) => {
     const [navigationViewId] = useState(generateId(16))
     useInjectNavigationViewCSS()
     const { stack, status, pushStack, popStack } = useNavigationStack(
-        navigationViewId,
         Children.toArray(children) as any)
     const animationClass = (val: number) => {
         switch (val) {
@@ -128,7 +128,32 @@ const NavigationView: FC<NavigationViewProps> = (props) => {
                             { useNavigationTitle,
                               useLeftNavigationItems,
                               useRightNavigationItems,
-                              pushStack, popStack, key: index,
+                              'pushStack': (element: ReactElement) => {
+                                pushStack(element)
+                                pushStateRecord(`${navigationViewId}.${index + 1}.pop`, () => {
+                                    console.log("PRINT STACK")
+                                    console.log(stack)
+                                    popStack()
+                                })
+                              },
+                              'popStack': (arg: string | number = 1) => {
+                                  popStack(arg)
+                                  let index: number = -1
+                                  if (typeof arg == 'string') {
+                                      const item = stack.find((item) => item.props.key == arg)
+                                      if (item) {
+                                          index = stack.indexOf(item)
+                                      }
+                                  } else if (typeof arg == 'number') {
+                                      index = stack.length - 1 - arg
+                                  }
+                                  stack.forEach((_, i) => {
+                                      if (i > index) {
+                                          removeStateRecord(`${navigationViewId}.i.pop`)
+                                      }
+                                  })
+                              },
+                              key: index,
                               ...passingProps })
     })
     let activeIndex = status.findIndex((s) => s === NavigationPageStatus.Leave) - 1
