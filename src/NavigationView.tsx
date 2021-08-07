@@ -5,6 +5,7 @@ import React, {
 import useNavigationStack, { NavigationPageStatus } from './useNavigationStack'
 import useInjectNavigationViewCSS from './useInjectNavigationViewCSS'
 import BackChevron from './BackChevron'
+import generateId from './generateId'
 
 interface NavigationViewProps {
     backElement?: ReactChild
@@ -77,8 +78,11 @@ const NavigationView: FC<NavigationViewProps> = (props) => {
     delete passingProps['navigationRightItemsClass']
     delete passingProps['backElement']
     delete passingProps['defaultBackButtonTitle']
+    const [navigationViewId] = useState(generateId(16))
     useInjectNavigationViewCSS()
-    const { stack, status, pushStack, popStack } = useNavigationStack(Children.toArray(children) as any)
+    const { stack, status, pushStack, popStack } = useNavigationStack(
+        navigationViewId,
+        Children.toArray(children) as any)
     const animationClass = (val: number) => {
         switch (val) {
             case NavigationPageStatus.Enter: {

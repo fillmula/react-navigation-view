@@ -1,6 +1,6 @@
 {
   "name": "react-navigation-view",
-  "version": "0.2.5",
+  "version": "0.3.0",
   "description": "React Navigation Stack UI",
   "types": "lib/index.d.ts",
   "main": "lib/index.js",
@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/fillmula/react-navigation-view#readme",
   "dependencies": {
+    "react-backable": "^0.1.0",
     "react-use-head-style-injection": "^0.0.1"
   },
   "peerDependencies": {
