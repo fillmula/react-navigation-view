@@ -44,7 +44,7 @@ const useNavigationStack = (
         }
         const newStatus = status.map((s, i) => {
             if (i > index) {
-                removeStateRecord(`${backableKey}.${i}.pop`)
+                removeStateRecord(`${backableKey}.${i + 1}.pop`)
                 return NavigationPageStatus.Leave
             } else {
                 return s
