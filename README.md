@@ -1,6 +1,6 @@
 # React Navigation View
 
-React navigation stack UI for the web.
+React navigation stack UI for the web. This is inspired by SwiftUI's `NavigationView`.
 
 # Example
 
@@ -48,6 +48,8 @@ export interface NavigationPageProps {
 ```
 
 ### Navigation View
+
+React navigation view is quite simple and self described.
 
 ```tsx
 interface NavigationViewProps {
