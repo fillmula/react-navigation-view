@@ -19,11 +19,15 @@ const useNavigationStack = (
     initial: ReactElement | ReactElement[] = [],
     duration: number = 0.3,
 ): NavigationStackSet => {
+    let initialArray: ReactElement[]
     if (!Array.isArray(initial)) {
-        initial = [initial]
+        initialArray = [initial]
+    } else {
+        initialArray = initial
     }
-    const [stack, setStack] = useState(initial)
-    const [status, setStatus] = useState<NavigationPageStatus[]>(Array(initial.length).fill(NavigationPageStatus.Static))
+    const [initialStack, setInitialStack] = useState(initialArray)
+    const [stack, setStack] = useState(initialArray)
+    const [status, setStatus] = useState<NavigationPageStatus[]>(Array(initialArray.length).fill(NavigationPageStatus.Static))
     const stackRef = useRef<ReactElement[]>()
     stackRef.current = stack
     const statusRef = useRef<NavigationPageStatus[]>()
@@ -63,12 +67,14 @@ const useNavigationStack = (
             setStack(stackRef.current!.slice(0, index + 1))
         }, duration * 1000)
     }
+
     useEffect(() => {
-        if (!Array.isArray(initial)) {
-            initial = [initial]
-        }
-        setStack(initial)
-    }, [initial])
+        //console.log("UPDATED ITEM -0-")
+        const newStack = [...stack]
+        newStack[0] = initialArray[0]
+        setStack(newStack)
+    }, [initialArray[0].props])
+
     return { stack, status, pushStack, popStack }
 }
 
