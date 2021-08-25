@@ -1,4 +1,4 @@
-import { useState, ReactElement, useRef } from 'react'
+import { useState, ReactElement, useRef, useEffect } from 'react'
 import { pushStateRecord, removeStateRecord } from 'react-backable'
 
 export enum NavigationPageStatus {
@@ -63,6 +63,12 @@ const useNavigationStack = (
             setStack(stackRef.current!.slice(0, index + 1))
         }, duration * 1000)
     }
+    useEffect(() => {
+        if (!Array.isArray(initial)) {
+            initial = [initial]
+        }
+        setStack(initial)
+    }, [initial])
     return { stack, status, pushStack, popStack }
 }
 
